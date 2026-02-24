@@ -7,16 +7,29 @@
     <projectFile>Intermediate/ProjectFiles/Dogfight.vcxproj</projectFile>
     <projectFile>Intermediate/ProjectFiles/UE5.vcxproj</projectFile>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="e365092e-d58e-490b-bfc2-1074e8bbee2a" name="Changes" comment="" />
+    <list default="true" id="e365092e-d58e-490b-bfc2-1074e8bbee2a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Dogfight/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Dogfight/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dogfight.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/Dogfight.uproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Dogfight/Dogfight.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Dogfight.Build.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Containers/Array.h" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="3A7ZLqfzHVr7KkKMBdeEfgKbkIF" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -26,6 +39,12 @@
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -116,7 +135,10 @@
       <method v="2" />
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
-      <deployment type="dockerfile" />
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
       <method v="2" />
     </configuration>
   </component>
@@ -128,6 +150,7 @@
       <option name="presentableId" value="Default" />
       <updated>1771945517505</updated>
       <workItem from="1771945518830" duration="246000" />
+      <workItem from="1771947027464" duration="6545000" />
     </task>
     <servers />
   </component>
