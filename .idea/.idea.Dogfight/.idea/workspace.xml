@@ -12,9 +12,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e365092e-d58e-490b-bfc2-1074e8bbee2a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Source/Dogfight/Core/MarchingCubes.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Dogfight/Core/SDF.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Dogfight/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Dogfight/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Levels/L_MeshGeneration.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/L_MeshGeneration.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMeshActor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMeshActor.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMeshActor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMeshActor.h" afterDir="false" />
     </list>
@@ -27,10 +26,13 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Developer/MeshBuilder/Private/MeshBuilder.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Developer/MeshBuilder/Public/MeshBuilder.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Containers/Array.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/GeometryCore/Private/Generators/MarchingCubes.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/GeometryCore/Public/Generators/MarchingCubes.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Dogfight/Core/MarchingCubes.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/Dogfight/Core/SDF.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
@@ -40,20 +42,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="C/C++ Project.Dogfight">
     <configuration name="Dogfight" type="CppProject" factoryName="C++ Project">
       <configuration_1 setup="1">
@@ -157,7 +159,8 @@
       <updated>1771945517505</updated>
       <workItem from="1771945518830" duration="246000" />
       <workItem from="1771947027464" duration="6565000" />
-      <workItem from="1772022482535" duration="22418000" />
+      <workItem from="1772022482535" duration="22625000" />
+      <workItem from="1772090284675" duration="18867000" />
     </task>
     <servers />
   </component>
@@ -183,6 +186,11 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Developer/MeshBuilder/Public/MeshBuilder.h</url>
+          <line>4</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
