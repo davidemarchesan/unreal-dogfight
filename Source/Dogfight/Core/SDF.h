@@ -1,4 +1,5 @@
 #pragma once
+#include "Noise.h"
 
 struct FSdfShape
 {
@@ -35,7 +36,7 @@ protected:
 	float Diameter = 200.f;
 
 	float MaxWide = 1.4f;
-	float MaxNarrow = 0.4f;
+	float MaxNarrow = 1.f;
 
 public:
 	FSdfRockBase() {};
@@ -54,8 +55,15 @@ public:
 		// and narrow at bottom, where z is close to -Radius
 		const float t = (Point.Z + Radius) / Diameter;
 		const float ZScaleFactor = MaxNarrow + (MaxWide - MaxNarrow) * t;
+
+		const float NoiseFreq = 0.5f;
+		const float NoiseAmp = 4.f;
+
+		float NoiseValue = FPerlinNoise(Point * NoiseFreq).GetValue();
+		float Offset = FMath::Clamp(NoiseValue * NoiseAmp, -50*0.4f, 50*0.4f);
 		
-		const float Distance = (FVector(Point.X / ZScaleFactor, Point.Y / ZScaleFactor, Point.Z) - Center).Length() - Radius;
+		const float Distance = (FVector(Point.X / ZScaleFactor, Point.Y / ZScaleFactor, Point.Z) - Center).Length() - (Radius + Offset);
+		// const float Distance = (FVector(Point.X, Point.Y, Point.Z) - Center).Length() - (Radius + Offset);
 		
 		return Distance;
 	}
