@@ -20,25 +20,37 @@ AProceduralMeshActor::AProceduralMeshActor()
 
 void AProceduralMeshActor::GenerateMesh()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Generating mesh..."));
+
+	if (ProcMeshComponent == nullptr)
+	{
+		return;
+	}
+
+	ProcMeshComponent->ClearAllMeshSections();
+	MeshData.Reset();
 	
-	constexpr float Radius = 500.f;
+	uint32 Seed = GenerateSeed();
+	
+	UE_LOG(LogTemp, Warning, TEXT("Generating mesh with seed %u"), Seed);
+
+	FRandomStream RandomNumberGenerator(Seed);
+	
+	const float Radius = RandomNumberGenerator.FRandRange(100.f, 500.f);
+	const float Range = Radius * 5;
+
+	const float Height = RandomNumberGenerator.FRandRange(0.3f, 1.2f);
+	const float MaxWide = RandomNumberGenerator.FRandRange(0.9f, 1.4f);
+	const float MaxNarrow = RandomNumberGenerator.FRandRange(0.7f, 1.f);
+
+	UE_LOG(LogTemp, Warning, TEXT("Radius %f \nRange %f \nHeight %f \nMaxWide %f \nMaxNarrow %f"), Radius, Range, Height, MaxWide, MaxNarrow);
+	
+	auto Sdf = FSdfRockBase(Radius,  Height, MaxWide, MaxNarrow);
+	
 	constexpr float Step = 50.f;
-	constexpr float Range = 1200.f;
 	constexpr float HalfStep = Step * 0.5f;
 
 	// Internal diagonal of voxel (cube) + a little bit more space
 	float MinDistance = FMath::Sqrt(3.f) * Step + 2.f;
-	
-	auto Sdf = FSdfRockBase(Radius);
-
-	DrawDebugPoint(
-		GetWorld(),
-		GetActorLocation(),
-		12.f,
-		FColor::Yellow,
-		true
-	);
 
 	int32 Skipped = 0;
 
@@ -116,13 +128,13 @@ void AProceduralMeshActor::GenerateMesh()
 							// This point will be part of the triangle(s)
 							EdgeVertex[i] = TriangleVertex;
 
-							DrawDebugPoint(
-								GetWorld(),
-								TriangleVertex,
-								8.f,
-								FColor::Yellow,
-								true
-							);
+							// DrawDebugPoint(
+							// 	GetWorld(),
+							// 	TriangleVertex,
+							// 	8.f,
+							// 	FColor::Yellow,
+							// 	true
+							// );
 						}
 					}
 
@@ -173,6 +185,22 @@ void AProceduralMeshActor::GenerateMesh()
 		MeshData.Tangents,
 		true
 	);
+}
+
+uint32 AProceduralMeshActor::GenerateSeed()
+{
+
+	int Seconds = FMath::FloorToInt(GetWorld()->GetTimeSeconds());
+	int Rand = FMath::Rand();
+
+	uint32 Combined = Seconds ^ Rand;
+
+	// MurmurHash
+	Combined = (Combined ^ (Combined >> 16)) * 0x85ebca6b;
+	Combined = (Combined ^ (Combined >> 13)) * 0xc2b2ae35;
+	Combined ^= (Combined >> 16);
+	
+	return Combined;
 }
 
 FVector AProceduralMeshActor::CalcNormal(const FSdfShape& SDF, const FVector& Vertex)

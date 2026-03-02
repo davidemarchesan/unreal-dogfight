@@ -36,7 +36,7 @@ struct FPerlinNoise
 
 	int Hash(int X, int Y, int Z) const
 	{
-		int Hash = X * 374761393 + Y * 668265263 + Z * 2147483647;
+		uint32 Hash = X * 374761393 + Y * 668265263 + Z * 2147483647;
 		Hash = (Hash ^ (Hash >> 13)) * 1274126177;
 		return Hash % 12;
 	}

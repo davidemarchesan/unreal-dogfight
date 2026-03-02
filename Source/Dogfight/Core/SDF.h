@@ -3,9 +3,14 @@
 
 struct FSdfShape
 {
-	FSdfShape() {};
-	virtual ~FSdfShape() {};
-	
+	FSdfShape()
+	{
+	};
+
+	virtual ~FSdfShape()
+	{
+	};
+
 	virtual float Evaluate(const FVector& Point) const
 	{
 		return 0;
@@ -14,9 +19,14 @@ struct FSdfShape
 
 struct FSdfSphere : FSdfShape
 {
-	FSdfSphere() {};
-	virtual ~FSdfSphere() override {};
-	
+	FSdfSphere()
+	{
+	};
+
+	virtual ~FSdfSphere() override
+	{
+	};
+
 	FVector Center = FVector::ZeroVector;
 	float Radius = 100.f;
 
@@ -29,42 +39,78 @@ struct FSdfSphere : FSdfShape
 
 struct FSdfRockBase : FSdfShape
 {
-
 protected:
 	FVector Center = FVector::ZeroVector;
 	float Radius = 100.f;
 	float Diameter = 200.f;
 
+	float Height = 1.f;
+
 	float MaxWide = 1.4f;
-	float MaxNarrow = 1.f;
+	float MaxNarrow = 0.3f;
 
 public:
-	FSdfRockBase() {};
+	FSdfRockBase()
+	{
+	};
+
 	FSdfRockBase(const float InRadius) : Radius(InRadius)
 	{
 		Diameter = Radius * 2.f;
 	};
-	
-	virtual ~FSdfRockBase() override {};
-	
+
+	FSdfRockBase(const float InRadius, const float InHeight, const float InMaxWide, const float InMaxNarrow)
+		: Radius(InRadius),
+		Height(InHeight),
+		MaxWide(InMaxWide),
+		MaxNarrow(InMaxNarrow)
+	{}
+
+	virtual ~FSdfRockBase() override
+	{
+	};
+
+	float FractalNoise(const FVector& Point) const
+	{
+		// https://thebookofshaders.com/13/
+		const int Octaves = 10;
+		float Lacunarity = 2.f;
+		float Gain = 0.5f;
+
+		// Initial values
+		float Frequency = 0.1f;
+		float Amplitude = 1.f;
+
+		float Value = 0.f;
+
+		for (int i = 0; i < Octaves; i++)
+		{
+			Value += Amplitude * FPerlinNoise(Point * Frequency).GetValue();
+			Frequency *= Lacunarity;
+			Amplitude *= Gain;
+		}
+
+		return Value;
+	}
 
 	virtual float Evaluate(const FVector& Point) const override
 	{
-
 		// Rocks should be wide at top, where z is close to +Radius
 		// and narrow at bottom, where z is close to -Radius
-		const float t = (Point.Z + Radius) / Diameter;
+		const float t = (Point.Z * Height + Radius) / Diameter;
 		const float ZScaleFactor = MaxNarrow + (MaxWide - MaxNarrow) * t;
 
-		const float NoiseFreq = 0.5f;
-		const float NoiseAmp = 4.f;
+		const FVector P(
+			Point.X / ZScaleFactor,
+			Point.Y / ZScaleFactor,
+			Point.Z * Height
+		);
+		
+		// Perlin Noise + Fractal Brownian Motion
+		float NoiseOffset = FractalNoise(P);
 
-		float NoiseValue = FPerlinNoise(Point * NoiseFreq).GetValue();
-		float Offset = FMath::Clamp(NoiseValue * NoiseAmp, -50*0.4f, 50*0.4f);
-		
-		const float Distance = (FVector(Point.X / ZScaleFactor, Point.Y / ZScaleFactor, Point.Z) - Center).Length() - (Radius + Offset);
-		// const float Distance = (FVector(Point.X, Point.Y, Point.Z) - Center).Length() - (Radius + Offset);
-		
+		const float Distance = (P - Center).Length() - (Radius + NoiseOffset);
+
 		return Distance;
 	}
 };
@@ -101,11 +147,21 @@ public:
 	{
 		Triangles.Add(A);
 	}
-	
+
 	void AddTriangle(const int32 A, const int32 B, const int32 C)
 	{
 		Triangles.Add(A);
 		Triangles.Add(B);
 		Triangles.Add(C);
+	}
+
+	void Reset()
+	{
+		Vertices.Reset();
+		Triangles.Reset();
+		Normals.Reset();
+		UV0.Reset();
+		Tangents.Reset();
+		VertexColors.Reset();
 	}
 };

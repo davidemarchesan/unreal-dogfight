@@ -24,7 +24,10 @@ private:
 
 	FMeshData MeshData;
 
+	uint32 GenerateSeed();
+	
 	FVector CalcNormal(const FSdfShape& SDF, const FVector& Vertex);
+	
 	FProcMeshTangent CalcTangent(const FVector& Normal);
 	
 protected:
