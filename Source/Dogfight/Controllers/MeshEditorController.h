@@ -16,8 +16,11 @@ class DOGFIGHT_API AMeshEditorController : public APlayerController
 
 public:
 
-	// Console command
+	// Console commands
 	UFUNCTION(Exec)
 	void GenerateMesh();
+
+	UFUNCTION(Exec)
+	void GenerateMap();
 	
 };

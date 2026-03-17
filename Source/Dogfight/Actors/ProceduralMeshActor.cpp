@@ -1,6 +1,7 @@
 #include "ProceduralMeshActor.h"
 
 #include "Dogfight/Core/MarchingCubes.h"
+#include "Dogfight/Core/Procedural.h"
 
 AProceduralMeshActor::AProceduralMeshActor()
 {
@@ -21,6 +22,7 @@ AProceduralMeshActor::AProceduralMeshActor()
 void AProceduralMeshActor::GenerateMesh()
 {
 
+	// Reset
 	if (ProcMeshComponent == nullptr)
 	{
 		return;
@@ -28,8 +30,9 @@ void AProceduralMeshActor::GenerateMesh()
 
 	ProcMeshComponent->ClearAllMeshSections();
 	MeshData.Reset();
-	
-	uint32 Seed = GenerateSeed();
+
+	// Generate
+	uint32 Seed = FProcedural::GenerateSeed(GetWorld()->GetTimeSeconds());
 	
 	UE_LOG(LogTemp, Warning, TEXT("Generating mesh with seed %u"), Seed);
 
@@ -187,22 +190,6 @@ void AProceduralMeshActor::GenerateMesh()
 	);
 }
 
-uint32 AProceduralMeshActor::GenerateSeed()
-{
-
-	int Seconds = FMath::FloorToInt(GetWorld()->GetTimeSeconds());
-	int Rand = FMath::Rand();
-
-	uint32 Combined = Seconds ^ Rand;
-
-	// MurmurHash
-	Combined = (Combined ^ (Combined >> 16)) * 0x85ebca6b;
-	Combined = (Combined ^ (Combined >> 13)) * 0xc2b2ae35;
-	Combined ^= (Combined >> 16);
-	
-	return Combined;
-}
-
 FVector AProceduralMeshActor::CalcNormal(const FSdfShape& SDF, const FVector& Vertex)
 {
 	const float Eps = 0.1f;
@@ -237,7 +224,7 @@ void AProceduralMeshActor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GenerateMesh();
+	// GenerateMesh();
 }
 
 void AProceduralMeshActor::Tick(float DeltaTime)

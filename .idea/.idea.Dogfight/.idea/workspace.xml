@@ -12,12 +12,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e365092e-d58e-490b-bfc2-1074e8bbee2a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Source/Dogfight/Core/Procedural.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Dogfight/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Dogfight/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Levels/L_MeshGeneration.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/L_MeshGeneration.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMeshActor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMeshActor.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMeshActor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMeshActor.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Dogfight/Core/Noise.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Dogfight/Core/Noise.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Core/Noise.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Dogfight/Controllers/MeshEditorController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Controllers/MeshEditorController.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Dogfight/Controllers/MeshEditorController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Controllers/MeshEditorController.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Dogfight/Core/SDF.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Core/SDF.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,11 +34,12 @@
     <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Developer/MeshBuilder/Public/MeshBuilder.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Containers/Array.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Math/Vector.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/Engine/Classes/GameFramework/Actor.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/GeometryCore/Private/Generators/MarchingCubes.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/GeometryCore/Public/Generators/MarchingCubes.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Dogfight/Core/MarchingCubes.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Source/Dogfight/Core/Noise.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Dogfight/Core/Noise.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/Dogfight/Core/Procedural.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Dogfight/Core/SDF.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
@@ -169,7 +171,8 @@
       <workItem from="1772090284675" duration="19469000" />
       <workItem from="1772180276699" duration="10076000" />
       <workItem from="1772286897859" duration="731000" />
-      <workItem from="1772437622743" duration="11132000" />
+      <workItem from="1772437622743" duration="11672000" />
+      <workItem from="1773735414591" duration="10655000" />
     </task>
     <servers />
   </component>

@@ -74,8 +74,8 @@ public:
 	{
 		// https://thebookofshaders.com/13/
 		const int Octaves = 10;
-		float Lacunarity = 2.f;
-		float Gain = 0.5f;
+		const float Lacunarity = 2.f;
+		const float Gain = 0.5f;
 
 		// Initial values
 		float Frequency = 0.1f;
