@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Dogfight/Core/Procedural.h"
 #include "GameFramework/Actor.h"
 #include "ProceduralMapActor.generated.h"
 
@@ -17,11 +18,23 @@ public:
 
 private:
 
-	const int GridSize = 10;
+	const int GridSize = 50;
 	TArray<TArray<int32>> Grid;
+	
+	float Radius = 400.f;								// Min distance between two points
+	float RadiusTwice = Radius * 2.f;
+	float CellSize = Radius / FMath::Sqrt(2.f);	// Diagonal distance to avoid two points in the same cell
+	float MaxBoundaries = CellSize * GridSize;
 
 	TArray<FVector> PointsList;
-	TArray<FVector> ActiveList;
+	TArray<FVector> ActivePointsList;
+	
+	bool IsInsideBounds(const FVector& Point);
+	void MarkPoint(const FVector& Point);
+	void AddPointToActiveList(const FVector& Point);
+	void AddPointToGrid(const FVector& Point);
+	
+	FGridCell GetGridCell(const FVector& Point);
 
 protected:
 	virtual void BeginPlay() override;

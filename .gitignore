@@ -78,4 +78,6 @@ Plugins/**/Intermediate/*
 DerivedDataCache/*
 _DerivedDataCache/*
 
+# Other folders
 Tracks/*
+Plugins/*

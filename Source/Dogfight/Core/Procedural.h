@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Procedural.generated.h"
+
 class FProcedural
 {
 public:
@@ -16,5 +18,29 @@ public:
 		Combined ^= (Combined >> 16);
 	
 		return Combined;
+	}
+};
+
+USTRUCT()
+struct FGridCell
+{
+	GENERATED_BODY()
+	
+public:
+	
+	UPROPERTY()
+	int32 X = 0;
+	
+	UPROPERTY()
+	int32 Y = 0;
+	
+public:
+	
+	FGridCell() = default;
+	
+	FGridCell(const int32 InX, const int32 InY)
+		: X(InX), Y(InY)
+	{
+		
 	}
 };
