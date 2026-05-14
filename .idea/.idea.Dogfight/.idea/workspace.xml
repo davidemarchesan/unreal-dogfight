@@ -18,11 +18,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e365092e-d58e-490b-bfc2-1074e8bbee2a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Dogfight/Core/Meshes.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Dogfight/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Dogfight/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMapActor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMapActor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMapActor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMapActor.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Dogfight/Core/Procedural.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Core/Procedural.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Levels/L_MeshGeneration.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/L_MeshGeneration.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMeshActor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMeshActor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMeshActor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Actors/ProceduralMeshActor.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Dogfight/Dogfight.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Dogfight/Dogfight.Build.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,10 +38,16 @@
     <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Developer/MeshBuilder/Public/MeshBuilder.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Containers/Array.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Math/Vector.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/CoreUObject/Private/UObject/SavePackage.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/SavePackage.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/UObjectGlobals.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/Engine/Classes/GameFramework/Actor.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/Engine/Private/StaticMesh.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/GeometryCore/Private/Generators/MarchingCubes.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/GeometryCore/Public/Generators/MarchingCubes.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.6/Engine/Source/Runtime/MeshDescription/Public/MeshDescription.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Dogfight/Core/MarchingCubes.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/Dogfight/Core/Meshes.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Dogfight/Core/Noise.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Dogfight/Core/Procedural.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/Dogfight/Core/SDF.h" root0="FORCE_HIGHLIGHTING" />
@@ -191,7 +198,8 @@
       <workItem from="1773735414591" duration="10655000" />
       <workItem from="1774956306131" duration="245000" />
       <workItem from="1778674120886" duration="37000" />
-      <workItem from="1778674302345" duration="12439000" />
+      <workItem from="1778674302345" duration="13075000" />
+      <workItem from="1778749410651" duration="11385000" />
     </task>
     <servers />
   </component>

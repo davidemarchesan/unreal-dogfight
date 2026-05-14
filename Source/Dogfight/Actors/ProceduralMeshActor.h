@@ -25,13 +25,23 @@ private:
 	FMeshData MeshData;
 	
 	FVector CalcNormal(const FSdfShape& SDF, const FVector& Vertex);
-	
 	FProcMeshTangent CalcTangent(const FVector& Normal);
+	
+	bool bGenerated = false;
+	
+	float Radius;
+	float Height;
+	float MaxWide;
+	float MaxNarrow;
 	
 protected:
 	virtual void BeginPlay() override;
 
 public:
 	
+	UFUNCTION(CallInEditor, Category = "Generation")
 	void GenerateMesh();
+	
+	UFUNCTION(CallInEditor, Category = "Generation")
+	void SaveMesh();
 };

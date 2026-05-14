@@ -1,7 +1,16 @@
 #include "ProceduralMeshActor.h"
 
+#include "AssetToolsModule.h"
+#include "ContentBrowserModule.h"
+#include "IContentBrowserSingleton.h"
+#include "StaticMeshAttributes.h"
+#include "StaticMeshDescription.h"
+#include "AssetRegistry/AssetRegistryModule.h"
 #include "Dogfight/Core/MarchingCubes.h"
+#include "Dogfight/Core/Meshes.h"
 #include "Dogfight/Core/Procedural.h"
+#include "Factories/BlueprintFactory.h"
+#include "UObject/SavePackage.h"
 
 AProceduralMeshActor::AProceduralMeshActor()
 {
@@ -38,12 +47,12 @@ void AProceduralMeshActor::GenerateMesh()
 
 	FRandomStream RandomNumberGenerator(Seed);
 	
-	const float Radius = RandomNumberGenerator.FRandRange(100.f, 500.f);
+	Radius = RandomNumberGenerator.FRandRange(100.f, 500.f);
 	const float Range = Radius * 5;
 
-	const float Height = RandomNumberGenerator.FRandRange(0.3f, 1.2f);
-	const float MaxWide = RandomNumberGenerator.FRandRange(0.9f, 1.4f);
-	const float MaxNarrow = RandomNumberGenerator.FRandRange(0.7f, 1.f);
+	Height = RandomNumberGenerator.FRandRange(0.3f, 1.2f);
+	MaxWide = RandomNumberGenerator.FRandRange(0.9f, 1.4f);
+	MaxNarrow = RandomNumberGenerator.FRandRange(0.7f, 1.f);
 
 	UE_LOG(LogTemp, Warning, TEXT("Radius %f \nRange %f \nHeight %f \nMaxWide %f \nMaxNarrow %f"), Radius, Range, Height, MaxWide, MaxNarrow);
 	
@@ -188,6 +197,116 @@ void AProceduralMeshActor::GenerateMesh()
 		MeshData.Tangents,
 		true
 	);
+	
+	bGenerated = true;
+}
+
+void AProceduralMeshActor::SaveMesh()
+{
+	
+	if (bGenerated == false)
+	{
+		return;
+	}
+	
+	FAssetToolsModule& AssetToolsModule = FModuleManager::Get().LoadModuleChecked<FAssetToolsModule>("AssetTools");
+	FContentBrowserModule& ContentBrowserModule = FModuleManager::Get().LoadModuleChecked<FContentBrowserModule>("ContentBrowser");
+	FAssetRegistryModule& AssetRegistryModule= FModuleManager::Get().LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
+	IAssetRegistry& AssetRegistry = AssetRegistryModule.Get();
+	
+	const FGuid Guid = FGuid::NewGuid();
+	
+	const FString PackageName = TEXT("/Game/Procedural/Rocks/SM_Rock") + Guid.ToString();
+	const FString Name = FPackageName::GetLongPackageAssetName(PackageName);
+	const FString PackagePath = FPackageName::GetLongPackagePath(PackageName);
+	
+	UPackage* Package = CreatePackage(*PackageName);
+	Package->FullyLoad();
+	
+	// UBlueprintFactory* MyFactory = NewObject<UBlueprintFactory>(UBlueprintFactory::StaticClass());
+	// UObject* NewObject = AssetToolsModule.Get().CreateAsset(Name, PackagePath, UBlueprint::StaticClass(), MyFactory);
+	
+	UStaticMesh* NewMeshAsset = NewObject<UStaticMesh>(Package, *Name, RF_Public | RF_Standalone);
+	
+	// Building static mesh
+	UStaticMeshDescription* StaticMeshDesc = NewObject<UStaticMeshDescription>();
+	FMeshDescription& MeshDesc = StaticMeshDesc->GetMeshDescription();
+	
+	FStaticMeshAttributes MeshAttr(MeshDesc);
+	MeshAttr.Register();
+	
+	auto VertexPositions = MeshAttr.GetVertexPositions();
+	auto Normals = MeshAttr.GetVertexInstanceNormals();
+	auto UVs = MeshAttr.GetVertexInstanceUVs();
+	
+	// Vertices
+	TArray<FVertexID> VertexIds;
+	for (const FVector& Vertex : MeshData.Vertices)
+	{
+		const FVertexID ID = MeshDesc.CreateVertex();
+		VertexPositions[ID] = FVector3f(Vertex);
+		VertexIds.Add(ID);
+	}
+	
+	// Triangles
+	FPolygonGroupID PolyGroup = MeshDesc.CreatePolygonGroup(); 
+	for (int32 i = 0; i < MeshData.Triangles.Num(); i += 3)
+	{
+		TArray<FVertexInstanceID> TriangleInstances;
+		for (int32 j = 0; j < 3; ++j)
+		{
+			int32 DataIndex = MeshData.Triangles[i + j];
+			FVertexInstanceID VIID = MeshDesc.CreateVertexInstance(VertexIds[DataIndex]);
+			TriangleInstances.Add(VIID);
+
+			// Map Normal and UV to the instance
+			Normals[VIID] = FVector3f(MeshData.Normals[DataIndex]);
+			UVs[VIID] = FVector2f(MeshData.UV0[DataIndex]);
+		}
+		MeshDesc.CreateTriangle(PolyGroup, TriangleInstances);
+	}
+
+	TArray<UStaticMeshDescription*> DescriptionContainer;
+	DescriptionContainer.Add(StaticMeshDesc);
+    
+	NewMeshAsset->BuildFromStaticMeshDescriptions(DescriptionContainer);
+	
+	NewMeshAsset->PostEditChange(); 
+	Package->SetDirtyFlag(true);
+	// End building static mesh
+	
+	FSavePackageArgs SaveArgs;
+	SaveArgs.TopLevelFlags = RF_Public | RF_Standalone;
+	SaveArgs.SaveFlags = SAVE_NoError;
+	
+	UPackage::SavePackage(
+		Package, 
+		NewMeshAsset, 
+		*FPackageName::LongPackageNameToFilename(PackageName, FPackageName::GetAssetPackageExtension()),
+		SaveArgs
+		);
+	
+	AssetRegistry.AssetCreated(NewMeshAsset);
+	
+	TArray<UObject*> Objects;
+	Objects.Add(NewMeshAsset);
+	ContentBrowserModule.Get().SyncBrowserToAssets(Objects);
+	
+	// UStaticMesh* StaticMesh;
+	// FMeshDescription MeshDescription;
+	//
+	// MeshDescription.Triangles() = MeshData.Triangles;
+	//
+	// StaticMesh->BuildFromMeshDescription()
+	//
+	// URockDataAsset* RockDataAsset;
+	//
+	// RockDataAsset->StaticMesh = StaticMesh;
+	// RockDataAsset->Radius = Radius;
+	// RockDataAsset->Height = Height;
+	// RockDataAsset->MaxWide = MaxWide;
+	// RockDataAsset->MaxNarrow = MaxNarrow;
+	
 }
 
 FVector AProceduralMeshActor::CalcNormal(const FSdfShape& SDF, const FVector& Vertex)

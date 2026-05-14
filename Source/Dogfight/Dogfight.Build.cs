@@ -8,7 +8,7 @@ public class Dogfight : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "UMG", "Json", "JsonUtilities", "NetCore", "OnlineSubsystem", "OnlineSubsystemUtils", "OnlineSubsystemSteam", "ProceduralMeshComponent" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "UMG", "Json", "JsonUtilities", "NetCore", "OnlineSubsystem", "OnlineSubsystemUtils", "OnlineSubsystemSteam", "ProceduralMeshComponent", "MeshDescription", "StaticMeshDescription", "StaticMeshEditor" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore", "GameplayTags" });
 
