@@ -5,11 +5,11 @@
 #include "IContentBrowserSingleton.h"
 #include "StaticMeshAttributes.h"
 #include "StaticMeshDescription.h"
+#include "SWarningOrErrorBox.h"
 #include "AssetRegistry/AssetRegistryModule.h"
 #include "Dogfight/Core/MarchingCubes.h"
 #include "Dogfight/Core/Meshes.h"
 #include "Dogfight/Core/Procedural.h"
-#include "Factories/BlueprintFactory.h"
 #include "UObject/SavePackage.h"
 
 AProceduralMeshActor::AProceduralMeshActor()
@@ -139,14 +139,7 @@ void AProceduralMeshActor::GenerateMesh()
 							// Cache interpolated point
 							// This point will be part of the triangle(s)
 							EdgeVertex[i] = TriangleVertex;
-
-							// DrawDebugPoint(
-							// 	GetWorld(),
-							// 	TriangleVertex,
-							// 	8.f,
-							// 	FColor::Yellow,
-							// 	true
-							// );
+							
 						}
 					}
 
@@ -172,14 +165,7 @@ void AProceduralMeshActor::GenerateMesh()
 						);
 						MeshData.AddTriangle(VertexIndex);
 					}
-
-					// DrawDebugBox(
-					// 	GetWorld(),
-					// 	Point,
-					// 	FVector(HalfStep),
-					// 	FColor::Red,
-					// 	true);
-					// break;
+					
 				}
 			}
 
@@ -209,24 +195,31 @@ void AProceduralMeshActor::SaveMesh()
 		return;
 	}
 	
-	FAssetToolsModule& AssetToolsModule = FModuleManager::Get().LoadModuleChecked<FAssetToolsModule>("AssetTools");
 	FContentBrowserModule& ContentBrowserModule = FModuleManager::Get().LoadModuleChecked<FContentBrowserModule>("ContentBrowser");
 	FAssetRegistryModule& AssetRegistryModule= FModuleManager::Get().LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
 	IAssetRegistry& AssetRegistry = AssetRegistryModule.Get();
 	
+	// ID of the rock
 	const FGuid Guid = FGuid::NewGuid();
 	
-	const FString PackageName = TEXT("/Game/Procedural/Rocks/SM_Rock") + Guid.ToString();
-	const FString Name = FPackageName::GetLongPackageAssetName(PackageName);
-	const FString PackagePath = FPackageName::GetLongPackagePath(PackageName);
+	// Preparing static mesh and data asset packages
+	const FString MeshPackageName = TEXT("/Game/Procedural/Rocks/StaticMeshes/SM_Rock_") + Guid.ToString();
+	const FString MeshName = FPackageName::GetLongPackageAssetName(MeshPackageName);
+	const FString MeshPackagePath = FPackageName::GetLongPackagePath(MeshPackageName);
 	
-	UPackage* Package = CreatePackage(*PackageName);
-	Package->FullyLoad();
+	const FString DataPackageName = TEXT("/Game/Procedural/Rocks/Data/DataAssets/DA_Rock_") + Guid.ToString();
+	const FString DataName = FPackageName::GetLongPackageAssetName(DataPackageName);
+	const FString DataPackagePath = FPackageName::GetLongPackagePath(DataPackageName);
 	
-	// UBlueprintFactory* MyFactory = NewObject<UBlueprintFactory>(UBlueprintFactory::StaticClass());
-	// UObject* NewObject = AssetToolsModule.Get().CreateAsset(Name, PackagePath, UBlueprint::StaticClass(), MyFactory);
+	UPackage* MeshPackage = CreatePackage(*MeshPackageName);
+	MeshPackage->FullyLoad();
 	
-	UStaticMesh* NewMeshAsset = NewObject<UStaticMesh>(Package, *Name, RF_Public | RF_Standalone);
+	UPackage* DataPackage = CreatePackage(*DataPackageName);
+	DataPackage->FullyLoad();
+	
+	UStaticMesh* NewMeshAsset = NewObject<UStaticMesh>(MeshPackage, *MeshName, RF_Public | RF_Standalone);
+	URockDataAsset* NewDataAsset = NewObject<URockDataAsset>(DataPackage, *DataName, RF_Public | RF_Standalone);
+	// End preparing static mesh and data asset packages
 	
 	// Building static mesh
 	UStaticMeshDescription* StaticMeshDesc = NewObject<UStaticMeshDescription>();
@@ -272,40 +265,59 @@ void AProceduralMeshActor::SaveMesh()
 	NewMeshAsset->BuildFromStaticMeshDescriptions(DescriptionContainer);
 	
 	NewMeshAsset->PostEditChange(); 
-	Package->SetDirtyFlag(true);
+	MeshPackage->SetDirtyFlag(true);
 	// End building static mesh
+	
+	// Building data asset and row
+	if (NewDataAsset && NewMeshAsset)
+	{
+		FBox Box = NewMeshAsset->GetBoundingBox();
+		FVector Size = Box.GetSize();
+		
+		NewDataAsset->StaticMesh = NewMeshAsset;
+		NewDataAsset->Width = Size.X;
+		NewDataAsset->Height = Size.Z;
+		
+		FRockDataRow NewDataRow;
+		NewDataRow.RockDataAsset = NewDataAsset;
+		NewDataRow.Width = NewDataAsset->Width;
+		NewDataRow.Height = NewDataAsset->Height;
+		
+		FString TablePath = TEXT("/Game/Procedural/Rocks/Data/DT_RockCatalog.DT_RockCatalog");
+		UDataTable* Table = Cast<UDataTable>(StaticLoadObject(UDataTable::StaticClass(), nullptr, *TablePath));
+
+		if (Table)
+		{
+			Table->AddRow(*Guid.ToString(), NewDataRow);
+		}
+	}
+	// End building data asset and row
 	
 	FSavePackageArgs SaveArgs;
 	SaveArgs.TopLevelFlags = RF_Public | RF_Standalone;
 	SaveArgs.SaveFlags = SAVE_NoError;
 	
 	UPackage::SavePackage(
-		Package, 
+		MeshPackage, 
 		NewMeshAsset, 
-		*FPackageName::LongPackageNameToFilename(PackageName, FPackageName::GetAssetPackageExtension()),
+		*FPackageName::LongPackageNameToFilename(MeshPackageName, FPackageName::GetAssetPackageExtension()),
+		SaveArgs
+		);
+	
+	UPackage::SavePackage(
+		DataPackage,
+		NewDataAsset,
+		*FPackageName::LongPackageNameToFilename(DataPackageName, FPackageName::GetAssetPackageExtension()),
 		SaveArgs
 		);
 	
 	AssetRegistry.AssetCreated(NewMeshAsset);
+	AssetRegistry.AssetCreated(NewDataAsset);
 	
 	TArray<UObject*> Objects;
 	Objects.Add(NewMeshAsset);
+	Objects.Add(NewDataAsset);
 	ContentBrowserModule.Get().SyncBrowserToAssets(Objects);
-	
-	// UStaticMesh* StaticMesh;
-	// FMeshDescription MeshDescription;
-	//
-	// MeshDescription.Triangles() = MeshData.Triangles;
-	//
-	// StaticMesh->BuildFromMeshDescription()
-	//
-	// URockDataAsset* RockDataAsset;
-	//
-	// RockDataAsset->StaticMesh = StaticMesh;
-	// RockDataAsset->Radius = Radius;
-	// RockDataAsset->Height = Height;
-	// RockDataAsset->MaxWide = MaxWide;
-	// RockDataAsset->MaxNarrow = MaxNarrow;
 	
 }
 
@@ -342,8 +354,6 @@ FProcMeshTangent AProceduralMeshActor::CalcTangent(const FVector& Normal)
 void AProceduralMeshActor::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// GenerateMesh();
 }
 
 void AProceduralMeshActor::Tick(float DeltaTime)

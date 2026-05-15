@@ -21,17 +21,27 @@ public:
 	UStaticMesh* StaticMesh;
 	
 	UPROPERTY(EditAnywhere)
-	ERockSizeCategory SizeCategory;
-	
-	UPROPERTY(EditAnywhere)
-	float Radius;
+	float Width;
 	
 	UPROPERTY(EditAnywhere)
 	float Height;
 	
-	UPROPERTY(EditAnywhere)
-	float MaxWide;
+};
+
+USTRUCT(BlueprintType)
+struct FRockDataRow : public FTableRowBase
+{
+	GENERATED_BODY()
+	
+public:
 	
 	UPROPERTY(EditAnywhere)
-	float MaxNarrow;
+	TSoftObjectPtr<URockDataAsset> RockDataAsset;
+	
+	UPROPERTY(EditAnywhere)
+	float Width;
+	
+	UPROPERTY(EditAnywhere)
+	float Height;
+	
 };
