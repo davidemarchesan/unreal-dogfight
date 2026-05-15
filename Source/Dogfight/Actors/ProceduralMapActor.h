@@ -7,6 +7,8 @@
 #include "GameFramework/Actor.h"
 #include "ProceduralMapActor.generated.h"
 
+class UInstancedStaticMeshComponent;
+
 UCLASS()
 class DOGFIGHT_API AProceduralMapActor : public AActor
 {
@@ -18,12 +20,12 @@ public:
 
 private:
 
-	const int GridSize = 50;
-	TArray<TArray<int32>> Grid;
+	const int GridSize = 10;
+	TArray<TArray<TArray<int32>>> Grid;
 	
-	float Radius = 400.f;								// Min distance between two points
+	float Radius = 10000.f;								// Min distance between two points
 	float RadiusTwice = Radius * 2.f;
-	float CellSize = Radius / FMath::Sqrt(2.f);	// Diagonal distance to avoid two points in the same cell
+	float CellSize = Radius / FMath::Sqrt(3.f);	// Diagonal distance to avoid two points in the same cell
 	float MaxBoundaries = CellSize * GridSize;
 
 	TArray<FVector> PointsList;
@@ -41,5 +43,6 @@ protected:
 
 public:
 
+	UFUNCTION(CallInEditor, Category = "Generation")
 	void GenerateMap();
 };

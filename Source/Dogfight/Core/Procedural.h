@@ -34,12 +34,15 @@ public:
 	UPROPERTY()
 	int32 Y = 0;
 	
+	UPROPERTY()
+	int32 Z = 0;
+	
 public:
 	
 	FGridCell() = default;
 	
-	FGridCell(const int32 InX, const int32 InY)
-		: X(InX), Y(InY)
+	FGridCell(const int32 InX, const int32 InY, const int32 InZ)
+		: X(InX), Y(InY), Z(InZ)
 	{
 		
 	}
